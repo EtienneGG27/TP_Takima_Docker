@@ -7,10 +7,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - POSTGRES_DB=db
-      - POSTGRES_USER=usr
-      - POSTGRES_PASSWORD=pwd
-      - POSTGRES_URL=jdbc:postgresql://database:5432/db
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_URL=${POSTGRES_URL}
     networks:
       - app-network
     depends_on:
