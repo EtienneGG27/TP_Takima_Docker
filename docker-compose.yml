@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  backend:
+    build:
+      context: ./back-end
+    ports:
+      - "8080:8080"
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_USER=usr
+      - POSTGRES_PASSWORD=pwd
+      - POSTGRES_URL=jdbc:postgresql://database:5432/db
+    networks:
+      - app-network
+    depends_on:
+      - database
+    container_name: back-end-container
+
+
+  database:
+    build:
+      context: ./db
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    volumes:
+      - my-vol:/var/lib/postgresql/data
+    container_name: db-container
+
+  http:
+    build:
+      context: ./http
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - backend
+    container_name: front-end-container
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  my-vol:
